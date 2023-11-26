@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hero 的主页</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Audiowide"
+    />
+    <style>
+      body {
+        background-color: bisque;
+        margin: 0;
+        font-family: "Audiowide", sans-serif;
+      }
+      nav {
+        margin: 20px 10px;
+        border-radius: 4px;
+        display: flex;
+        background-color: dimgrey;
+        padding: 0px 10px;
+        font-style: italic;
+        justify-content: space-around;
+        align-items: center;
+      }
+      a {
+        color: burlywood;
+        text-decoration: none;
+      }
+      nav ul {
+        display: flex;
+        flex: 1;
+        list-style: none;
+        align-items: center;
+      }
+      nav li {
+        margin: 0 15px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      main {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 10px;
+        padding: 10px;
+      }
+      .posts ul {
+         margin-top: 10px;
+        list-style: none;
+        padding: 0;
+         margin-top: 25px;
+      }
+      article {
+        background-color: rgba(255, 255, 255, 0.348);
+        padding: 5px 5px;
+        font-weight: 100;
+        border-radius: 4px;
+      }
+      .categories ul {
+        margin-top: 25px;
+        list-style: none;
+         display: flex;
+         flex-wrap: wrap;
+      }
+      .categories li {
+        background-color: sandybrown;
+        border-radius: 5px;
+        color: #fff;
+        padding: 5px;
+      }
+      footer {
+        background-color: burlywood;
+        margin: 20px 10px;
+        padding: 15px 0px;
+        border-radius: 4px;
+        text-align: center;
+        text-shadow: 1px 1px 1px #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Hero</a>
+        </div>
+        <ul class="navbar-nav">
+          <li><a href="/">主页</a></li>
+          <li><a href="/">关于</a></li>
+        </ul>
+      </nav>
+      <main>
+        <div class="posts">
+          My Latest Posts
+          <ul>
+            
+            <li><a href="Sample_Post.html">Sample Post</a></li>
+            
+          </ul>
+        </div>
+        <article><p>我是一个技术狂人，我会写技术文章，并且我会写技术文章，并且我会写技术文章。</p></article>
+        <div class="categories">
+          My Latest categories
+          <ul>
+            
+            <li>Tech</a></li>
+            
+          </ul>
+        </div>
+      </main>
+      <footer class="footer">
+        <p class="text-muted">
+          Hero 一个普普通通的个人的主页，copyright © 2023 @brzhang
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

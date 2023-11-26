@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hero 的主页</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Audiowide"
+    />
+    <style>
+      body {
+        background-color: bisque;
+        margin: 0;
+        font-family: "Audiowide", sans-serif;
+      }
+      nav {
+        margin: 20px 10px;
+        border-radius: 4px;
+        display: flex;
+        background-color: dimgrey;
+        padding: 0px 10px;
+        font-style: italic;
+        justify-content: space-around;
+        align-items: center;
+      }
+      a {
+        color: burlywood;
+        text-decoration: none;
+      }
+      nav ul {
+        display: flex;
+        flex: 1;
+        list-style: none;
+        align-items: center;
+      }
+      nav li {
+        margin: 0 15px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      main {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 10px;
+        padding: 10px;
+      }
+      .posts ul {
+         margin-top: 10px;
+         list-style: none;
+         padding: 0;
+         margin-top: 25px;
+      }
+      .posts ul li {
+         margin: 10px 0px;
+         font-weight: bold;
+          font-size: small;
+      }
+      article {
+        background-color: rgba(255, 255, 255, 0.348);
+        padding: 5px 5px;
+        font-weight: 100;
+        border-radius: 4px;
+      }
+      .categories ul {
+        margin-top: 25px;
+        list-style: none;
+         display: flex;
+         flex-wrap: wrap;
+      }
+      .categories li {
+        background-color: sandybrown;
+        border-radius: 5px;
+        color: #fff;
+        padding: 5px;
+        margin: 3px 5px;
+        font-size: small;
+      }
+      footer {
+        background-color: burlywood;
+        margin: 20px 10px;
+        padding: 15px 0px;
+        border-radius: 4px;
+        text-align: center;
+        text-shadow: 1px 1px 1px #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Hero</a>
+        </div>
+        <ul class="navbar-nav">
+          <li><a href="/">主页</a></li>
+          <li><a href="/">关于</a></li>
+        </ul>
+      </nav>
+      <main>
+        <div class="posts">
+          My Latest Posts
+          <ul>
+            
+            <li><a href="Introduction_how_to_write_program_with_go.html">- Introduction how to write program with go</a></li>
+            
+            <li><a href="Introduction_to_nodejs.html">- Introduction to nodejs</a></li>
+            
+            <li><a href="Introduction_to_Python.html">- Introduction to Python</a></li>
+            
+          </ul>
+        </div>
+        <article><h1>Title: Introduction to Node.js</h1>
+<p>Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It allows developers to build scalable and high-performance applications using JavaScript on the server-side.</p>
+<p>Node.js has gained popularity in recent years due to its non-blocking, event-driven architecture, which makes it ideal for building real-time applications, microservices, and APIs. It provides a lightweight and efficient runtime environment that allows for faster development and deployment of applications.</p>
+<p>One of the key features of Node.js is its package manager, npm, which is the largest ecosystem of open-source libraries in the world. This extensive collection of libraries and modules allows developers to easily integrate third-party code into their applications, reducing development time and effort.</p>
+<p>Node.js also has excellent support for asynchronous programming, making it well-suited for handling concurrent requests and heavy I/O operations. It provides several built-in modules for handling file systems, networking, and HTTP requests, making it easy to build web servers and APIs.</p>
+<p>Node.js is widely used in various domains such as web development, server-side scripting, and automation. It has a vibrant and active community that continually contributes to its growth and improvement.</p>
+<p>In conclusion, Node.js is a powerful and versatile technology that has revolutionized server-side development with JavaScript. Its non-blocking architecture, extensive library ecosystem, and excellent support for asynchronous programming make it a top choice for building scalable and high-performance applications.</p></article>
+        <div class="categories">
+          My Latest categories
+          <ul>
+            
+            <li>backend</a></li>
+            
+            <li>Frontend</a></li>
+            
+            <li>Tech</a></li>
+            
+          </ul>
+        </div>
+      </main>
+      <footer class="footer">
+        <p class="text-muted">
+          Hero 一个普普通通的个人的主页，copyright © 2023 @brzhang
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
