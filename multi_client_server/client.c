@@ -43,7 +43,7 @@ void send_msg_handler() {
     if (strcmp(message, "exit") == 0) {
 			break;
     } else {
-      sprintf(buffer, "%s: %s\n", name, message);
+      sprintf(buffer, "%s [from %s]\n", message,name);
       send(sockfd, buffer, strlen(buffer), 0);
     }
 

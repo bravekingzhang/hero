@@ -11,7 +11,7 @@
 #define NAME_LEN 32
 
 static unsigned int cli_count = 0;
-static int uid = 10;
+static int uid = 0;
 
 // Client structure
 typedef struct {
@@ -19,7 +19,7 @@ typedef struct {
     int sockfd;
     int uid;
     char name[NAME_LEN];
-    int muted; //add new field, wether the client is muted
+    int mute; //add new field, wether the client is muted
 } client_t;
 
 client_t *clients[MAX_CLIENTS];
@@ -87,11 +87,46 @@ int find_client_sockfd_by_uid(int uid) {
     return -1;
 }
 
+client_t * find_client_by_mute_name(char *mute_name) {
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        if (clients[i]->sockfd != 0 && strcmp(clients[i]->name, mute_name) == 0) {
+            return clients[i];
+        }
+    }
+    return NULL;
+}
+
+client_t * find_client_by_uid(int uid) {
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        if (clients[i]->sockfd != 0 && clients[i]->uid == uid) {
+            return clients[i];
+        }
+    }
+    return NULL;
+}
+// 移除客户端的函数
+void remove_client(int uid) {
+    for(int i = 0; i < MAX_CLIENTS; ++i) {
+        if(clients[i]) {
+            if(clients[i]->uid == uid) {
+                clients[i] = NULL;
+                break;
+            }
+        }
+    }
+}
+
 // Send message to all clients except the sender
 void send_message(char *s, int uid) {
     pthread_mutex_lock(&clients_mutex);
 
-      // 检查是否为私密消息
+    // 打印一下 接收到的消息和 uid
+    printf("server received: %s %d\n", s, uid);
+    printf("is /msg command? %d\n", strncmp(s, "/msg ", 5) == 0);
+    printf("is /mute command? %d\n", strncmp(s, "/mute ", 6) == 0);
+    printf("is /unmute command? %d\n", strncmp(s, "/unmute ", 8) == 0);
+    printf("is /kick command? %d\n", strncmp(s, "/kick ", 6) == 0);
+    // 检查是否为私密消息   /msg userB  hello
     if (strncmp(s, "/msg ", 5) == 0) {
         char recipient_name[32];
         char *message;
@@ -113,19 +148,72 @@ void send_message(char *s, int uid) {
             sprintf(buffer, "User %s does not exist.\\n", recipient_name);
             send(find_client_sockfd_by_uid(uid), buffer, strlen(buffer), 0);
         }
-    }
+    }// /mute userB
+    else if (strncmp(s, "/mute ", 6) == 0  && uid == 0) {//add new feature mute，uid = 0表示是第一个用户，就是群主
+        char mute_user[32];
+        char *message;
+        char buffer[BUFFER_SIZE + 32];
 
-    for (int i = 0; i < MAX_CLIENTS; ++i) {
-        if (clients[i]) {
-            if (clients[i]->uid != uid) {
-                if (write(clients[i]->sockfd, s, strlen(s)) < 0) {
-                    perror("ERROR: write to descriptor failed");
-                    break;
+        // 解析消息
+        message = s + 6; // 跳过 "/mute "
+        sscanf(message, "%s", mute_user);
+        //mute client
+        client_t * to_be_mute = find_client_by_mute_name(mute_user);
+        if (to_be_mute) {
+            to_be_mute->mute = 1;
+        }
+    } //  /unmute userB
+    else if(strncmp(s, "/unmute ", 8) == 0 && uid == 0){
+        char unmute_user[32];
+        char *message;
+        char buffer[BUFFER_SIZE + 32];
+        // 解析消息
+        message = s + 8; // 跳过 "/unmute "
+        sscanf(message, "%s", unmute_user);
+        //unmute client
+        client_t * to_be_unmute = find_client_by_mute_name(unmute_user);
+        if (to_be_unmute) {
+            to_be_unmute->mute = 0;
+        }
+    } // /kick userB
+    else if (strncmp(s, "/kick ", 6) == 0 && uid == 0) {
+        char kick_user[32];
+        char *message;
+        char buffer[BUFFER_SIZE + 32];
+        // 解析消息
+        message = s + 6; // 跳过 "/kick "
+        sscanf(message, "%s", kick_user);
+        //kick client
+        client_t * to_be_kick = find_client_by_mute_name(kick_user);
+        if (to_be_kick) {
+            //断开与该客户端的 socket 连接,哈哈，比较暴力哈，踢出群聊
+            close(to_be_kick->sockfd);
+            remove_client(to_be_kick->uid); // 从客户端列表中移除
+        }
+    }
+    else{
+        // Send message to all clients ，if client is not muted
+        client_t * client = find_client_by_uid(uid);
+        if(client->mute == 1){
+            // 告知 客户端他已经被屏蔽了
+            char buffer[BUFFER_SIZE];
+            sprintf(buffer, "Your message has been blocked.\\n");
+            write(client->sockfd, buffer, strlen(buffer));
+        }
+        else{
+            for (int i = 0; i < MAX_CLIENTS; ++i) {
+                if (clients[i]) {
+                    if (clients[i]->uid != uid) {
+                        if (write(clients[i]->sockfd, s, strlen(s)) < 0) {
+                            perror("ERROR: write to descriptor failed");
+                            break;
+                        }
+                    }
                 }
             }
         }
-    }
 
+    }
     pthread_mutex_unlock(&clients_mutex);
 }
 
